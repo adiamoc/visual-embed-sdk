@@ -41,17 +41,17 @@ Based on integration requirements, import any of the following embed modules and
 +
 To xref:embed-search.adoc[embed the ThoughtSpot search] functionality. 
 +
-The SearchEmbed component can be loaded up blank with a specified data source and no existing search, with a specified data source and a set of example search tokens, or with an existing saved Answer. 
+The **SearchEmbed** component can be loaded up blank with a specified data source and no existing search, with a specified data source and a set of example search tokens, or with an existing saved answer.
 +
-In all cases, the search bar will appear along with full capabilites to edit and modify the search and the resulting chart or table.
+In all cases, the search bar will appear along with full capabilities to edit and modify the search and the resulting chart or table.
 
 * *PinboardEmbed*
 +
 To embed ThoughtSpot xref:embed-a-viz.adoc[visualizations] and xref:embed-pinboard.adoc[pinboards]. 
 +
-The PinboardEmbed component is used to embed both full pinboards with multiple answers, as well as a specific answer on a pinboard without the search bar (referred to as a "visualization"). 
+You can use the **PinboardEmbed** component to embed a full pinboard with multiple answers, as well as a specific answer on a pinboard without the search bar. These answers are referred to as pinboard visualizations.
 +
-There is currently no way to embed an individually saved answer outside of the SearchEmbed, so for a single visualization to be displayed, it must be on a pinboard and embedded uisng the PinboardEmbed with both pinboardId and vizId properties. 
+Although you can use a saved search answer as a data source in SearchEmbed, ThoughtSpot does not support embedding a saved answer. However, you can embed a specific visualization from a pinboard using the `pinboardId` and `vizId` properties of PinboardEmbed.
 
 * *AppEmbed*
 +
