@@ -230,10 +230,7 @@ For a complete list of event types that you can register, see  link:https://docs
 * If you have disabled a menu item, verify if the menu command is disabled on the pinboards page.
 * Verify the runtime filters.
 
-== Code sample
-
-See xref:code-samples.adoc[Code samples].
-
 == Additional resources
 
-For more information on PinboardEmbed SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
+* For example code, see xref:code-samples.adoc[Code samples].
+* For more information on `searchEmbed` SDK reference, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
