@@ -82,3 +82,48 @@ Row level security groups should be created separately from content access group
 Row level security groups should be set to Not Shareable - this way you know that content sharing only occurs via the content access groups. It is much simpler to audit
 
 Row level security can be considerably more complex than just splitting at the tenant level and ThoughtSpot does facilitate these more complex models (guide to security). However, the basics of RLS to split at the tenant key level are always present and require the creation of the RLS groups.
+
+== Best practices for multi-tenant and single-tenant data models
+
+=== Multi-tenant database model
+The "multi-tenant database model" is designed on the following principles:
+
+* A single database to connect to, with a tenant key value that can be filtered on to retrieve data just for a single customer organization
+* Multiple customer organizations in ThoughtSpot
+* Content (answers and pinboards) provided by the app developer
+* Users within the customer organizations can create their own content, and can share it with other users within their own organizations only
+
+==== Content provided by app developer
+The app developer (the ThoughtSpot customer) will create at minimum the data model objects within ThoughtSpot and typically some “pre-built” searches and pinboards. Because there is a single database connection, there is only a need for one of each object. Row level security at the table level will ensure that each user only sees data from their organization, even though they are connecting to the same pinboards and worksheets.
+
+Objects created by the application developer to be shared with all users can be published by a to a single group that all users belong to -- we’ll call this the “app content group” (the actual group name can be whatever you like, something like “prod standard reports”). The application group should be configured as Not Shareable, because every user will belong to this group.
+
+In most cases, only worksheets should be shared to the end users, while the tables within the worksheet do not (this is allowed by the default ThoughtSpot configuration). Thus there should be a separate group for just the tables - we’ll call this the “app data model group”.
+
+If you want, you can publish all content in the application group from a single user representing the app developer or the application itself.
+
+==== Content belonging to individual tenants
+To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant. This group should be set to *SHAREABLE*, since only those users within the group will see that content. If the app developer will be building custom content per tenant, you could create a separate group for that content, set to *NOT SHAREABLE*.
+
+=== Single-tenant databases model
+The "single-tenant databases model" is designed on the following principles:
+
+* Each customer organization has its own database to connect to, with only that customer organization’s data present when making the database connection. Every database is similar in structure (table names and column names / data types).
+* Multiple customer organizations in ThoughtSpot
+* Content (answers and pinboards) are provided by the app developer in the form of templates
+* Users within the customer organizations can create their own content, and can share it with other users within their own organizations only
+
+==== Content provided by app developer
+Single-tenant databases require separate connections in ThoughtSpot for each database in most cases. There will then be separate objects on the ThoughtSpot Server for each connection. Because all of the objects other than the connection will be very similar, the deployment pattern can be handled through templating: there will be a set of template objects which are deployed for each tenant.
+
+We can describe the template as the parent content, with child objects that descend from the template.
+
+The template content itself will be built by the app developer, but will not be accessible to the customer organizations. Instead there will be a deployment process that copies the template content and makes the necessary changes, then publishes to the appropriate group for each customer.
+
+==== Content provided by app developer to each tenant group
+Each tenant should have a group used to give access to the content provided by the app developer - a tenant application group. Only the application developer would publish content to this group, and it should be set to Not Shareable.
+
+The process for deploying the content for each tenant from the template content is covered in the separate guide (Data Source and Content Templates with TML + REST API).
+
+==== Content belonging to individual tenants
+To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to Shareable, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are Shareable. 
