@@ -127,3 +127,17 @@ The process for deploying the content for each tenant from the template content 
 
 ==== Content belonging to individual tenants
 To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to Shareable, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are Shareable. 
+
+== Development and test content groups
+Most software development processes involve creating content in a restricted “development” environment, and then once the changes are finished, placing it in a “test” environment. Within a single ThoughtSpot instance, development and test content can be considered as another tenants, with access restricted to only app developer users.
+
+For both of the multi-tenancy patterns above, add additional groups for dev and test with only members of your app development team.
+
+== Privilege groups
+link:https://cloud-docs.thoughtspot.com/admin/users-groups/about-users-groups.html[Privileges, window=_blank] in ThoughtSpot control the set of product features a user has access to. Privileges are assigned to users through groups.
+
+A user’s privilege set is additive based on the groups they belong to - the user at all times has the full set of any privilege from any group they belong to. This is also to say that privileges do not apply only to content shared to the group.
+
+The simplest best practice for assigning privileges to users is to create privilege groups, set to not shareable, with no content shared to them. When configured this way, a privilege group acts like a role definition, and users from any tenant can all belong to one of the server-wide privilege groups.
+
+The REST API returns a user's privilege set as part of the response from the xref:user-api.adoc[GET /user/] endpoint.
