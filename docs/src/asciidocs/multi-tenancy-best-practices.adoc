@@ -46,7 +46,7 @@ To allow for multi-tenanted self-service, *SHAREABLE* groups can be created for 
 Avoid using the same group for access control and other privileges. Because a user can share with anyone in a group they belong to, they can potentially share restricted data.
 ====
 
-== Multi-Tenancy at the Data Level
+== Multi-Tenancy at the data level
 We will call a database multi-tenanted when a single set of credentials can see all of the data for all customer organizations. In a multi-tenanted database, there is typically a column named “customer_id” or “tenant_id” on every row of data within the database - we’ll call it the tenant key. Filtering against this tenant key splits the data for each customer organization.
 
 If the rules of multi-tenancy are more complex than a simple tenant key on each row of data, there should at least be one table which defines the tenants and can be joined in a way to filter the other tables appropriately.
