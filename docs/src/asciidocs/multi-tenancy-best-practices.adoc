@@ -109,6 +109,18 @@ If you want, you can publish all content in the application group from a single 
 ==== Content belonging to individual tenants
 To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant. This group should be set to *SHAREABLE*, since only those users within the group will see that content. If the app developer will be building custom content per tenant, you could create a separate group for that content, set to *NOT SHAREABLE*.
 
+==== Summary of access groups for multi-tenant database model
+The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups. 
+
+[width="100%" cols="3,4,2,2"]
+[options='header']
+|===
+|Group type|Content shared to group|Users in group|Sharability
+|prod data model group|tables|app developer|NOT SHAREABLE
+|standard content group|worksheets, answers, pinboards|all users|NOT SHAREABLE
+|tenant content groups (1 per tenant)|answers, pinboards|tenant users per group|SHAREABLE
+|===
+
 === Single-tenant databases model
 The "single-tenant databases model" is designed on the following principles:
 
@@ -131,6 +143,19 @@ The process for deploying the content for each tenant from the template content 
 
 ==== Content belonging to individual tenants
 To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to Shareable, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are Shareable. 
+
+==== Summary of access groups for single-tenant databases model
+The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups.
+
+[width="100%" cols="3,4,2,2"]
+[options='header']
+|===
+|Group type|Content shared to group|Users in group|Sharability
+|prod template group|Template tables, worksheets, answers, pinboards|app developer|SHAREABLE
+|standard data groups (1 per tenant)|tables (connected to tenant connection)|app developer|NOT SHAREABLE
+|standard content groups (1 per tenant)|worksheets, answers, pinboards|tenant users per group|NOT SHAREABLE
+|tenant content groups (1 per tenant)|answers, pinboards|tenant users per group|SHAREABLE
+|===
 
 == Development and test content groups
 Most software development processes involve creating content in a restricted “development” environment, and then once the changes are finished, placing it in a “test” environment. Within a single ThoughtSpot instance, development and test content can be considered as another tenants, with access restricted to only app developer users.
