@@ -26,7 +26,7 @@ Because ThoughtSpot has its own users, groups, and data objects, and connects to
 * Multi-tenancy at the ThoughtSpot user level: Each instance of ThoughtSpot has users, who belong to various groups. When configured correctly, groups control what sets of users see and who they can share with.
 * Multi-tenancy at the data level: ThoughtSpot connects to cloud data warehouses (CDW) to retrieve data. CDWs can be configured as multi-tenant or single-tenant.
 
-There are two aspects of groups which interact to create the “wall” between customer organizations: “shared content” and “non-shareable groups”.
+There are two aspects of groups which interact to create the “wall” between customer organizations: “shared content” and the “sharing visibility” property of groups and users.
 
 == Multi-tenancy at the user level
 Each group and user has a "sharing visibility" property, which can be set to *SHAREABLE* or *NOT SHAREABLE*.
@@ -66,6 +66,8 @@ A user only sees content when it is:
 
 When content is shared to a group, all of the members of that group will have access to the content.
 
+Sharing can occur through the UI (including when embedded) or via the xref:user-api.adoc[security REST APIs]. 
+
 === What content should be shared?
 While you can share individual tables from connections to users, the best practice is to create link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/worksheet-create.html[worksheets, window=_blank] and only share the relevant worksheets to end users. Any pinboards and saved answers shared to users should only connect to worksheets.
 
@@ -75,17 +77,18 @@ Remember to share the worksheet as *READ_ONLY* along with the pinboards and answ
 Another use of groups is to control what data a given user can see. The two primary categories of data security groups are row level security (RLS) groups and column level security (CLS) groups
 
 ==== Row level security (RLS) groups
-Row level security filters the results of database queries to only show a user the data they should have access to.
+link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.html[Row level security , window=_blank] (RLS) is used to filter the results of database queries to only show a user the data they should have access to.
 
-Row level security rules  in ThoughtSpot use the username or the group names of the groups the user belongs to as part of all queries.
+RLS link:https://cloud-docs.thoughtspot.com/admin/data-security/row-level-security.html[rules, window=_blank] in ThoughtSpot use the username or the group names of the groups the user belongs to as part of all queries.
 
-Row level security groups should be created separately from content access groups, because the row level security group must have a name that matches the values in the tenant key column in the database.
+RLS groups should be created separately from content access groups, because the row level security group must have a name that matches the values in the tenant key column in the database.
 
-Row level security groups should be set to Not Shareable - this way you know that content sharing only occurs via the content access groups. It is much simpler to audit
+RLS groups should be set to *NOT SHAREABLE* - this way you know that content sharing only occurs via the content access groups. It is much simpler to audit content access by using separate groups for each functionality.
 
-Row level security can be considerably more complex than just splitting at the tenant level and ThoughtSpot does facilitate these more complex models (guide to security). However, the basics of RLS to split at the tenant key level are always present and require the creation of the RLS groups.
+RLS can be considerably more complex than just splitting at the tenant level and ThoughtSpot does facilitate these more complex models (please see the link:https://community.thoughtspot.com/s/article/How-to-secure-your-data-in-ThoughtSpot-Examples-and-Best-Practices[comprehensive examples and best practices guide, window=_blank]). However, the basics of RLS to split at the tenant key level are always present and require the creation of the RLS groups.
 
 ==== Column level security (CLS) groups 
+link:https://cloud-docs.thoughtspot.com/admin/data-security/share-source-tables.html[Column level security, window=_blank] (CLS) can be configured at the individual table level through sharing. As with row level security groups, the best practice is creating separate groups specifically for the CLS groups.
 
 == Best practices for multi-tenant and single-tenant data models
 
@@ -100,7 +103,8 @@ The "multi-tenant database model" is designed on the following principles:
 ==== Content provided by app developer
 The app developer (the ThoughtSpot customer) will create at minimum the data model objects within ThoughtSpot and typically some “pre-built” searches and pinboards. Because there is a single database connection, there is only a need for one of each object. Row level security at the table level will ensure that each user only sees data from their organization, even though they are connecting to the same pinboards and worksheets.
 
-Objects created by the application developer to be shared with all users can be published by a to a single group that all users belong to -- we’ll call this the “app content group” (the actual group name can be whatever you like, something like “prod standard reports”). The application group should be configured as Not Shareable, because every user will belong to this group.
+Objects created by the application developer to be shared with all users can be published by a to a single group that all users belong to -- we’ll call this the “app content group” (the actual group name can be whatever you like, something like “prod standard reports”). The application group should be configured as *NOT SHAREABLE*
+, because every user will belong to this group.
 
 In most cases, only worksheets should be shared to the end users, while the tables within the worksheet do not (this is allowed by the default ThoughtSpot configuration). Thus there should be a separate group for just the tables - we’ll call this the “app data model group”.
 
@@ -137,12 +141,12 @@ We can describe the template as the parent content, with child objects that desc
 The template content itself will be built by the app developer, but will not be accessible to the customer organizations. Instead there will be a deployment process that copies the template content and makes the necessary changes, then publishes to the appropriate group for each customer.
 
 ==== Content provided by app developer to each tenant group
-Each tenant should have a group used to give access to the content provided by the app developer - a tenant application group. Only the application developer would publish content to this group, and it should be set to Not Shareable.
+Each tenant should have a group used to give access to the content provided by the app developer - a tenant application group. Only the application developer would publish content to this group, and it should be set to *NOT SHAREABLE*.
 
 The process for deploying the content for each tenant from the template content is covered in the separate guide (Data Source and Content Templates with TML + REST API).
 
 ==== Content belonging to individual tenants
-To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to Shareable, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are Shareable. 
+To allow for users to create their own content and share only within their organization, you will create at least one group for each tenant, separate from the application tenant group. This group can be set to *SHAREABLE*, or you may want additional groups below the main tenant group, representing different sets of users who belong to that tenant, and then make those child groups the ones that are *SHAREABLE*. 
 
 ==== Summary of access groups for single-tenant databases model
 The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups.
