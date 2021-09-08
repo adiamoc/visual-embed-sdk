@@ -18,7 +18,7 @@ ThoughtSpot link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group
 
 Because search is the primary organization method within ThoughtSpot and group membership is the mechanism for access control, when viewing the server as an administrator, all of the users, groups and content will be available and the multi-tenanted nature presented to the individual users may not be obvious at a glance.
 
-Creating and auditing the groups, group membership and the sharing settings is best accomplished via the xref:rest-api-reference.adoc[REST API]. All settings and configurations are available through the ThoughtSpot UI, but we expect synchronization with the web application using the REST APIs at a production level.
+Creating and auditing the groups, group membership and the sharing settings is best accomplished via the xref:rest-api-reference.adoc[REST API]. All settings and configurations are available through the ThoughtSpot UI, but at production scale all synchronization between the web application and ThoughtSpot is typically accomplished via the REST API.
 
 == Types of multi-tenancy in ThoughtSpot
 Because ThoughtSpot has its own users, groups, and data objects, and connects to cloud data warehouses that have their own set of objects, there are two separate but interacting forms of multi-tenancy to set up correctly:
@@ -81,7 +81,7 @@ link:https://cloud-docs.thoughtspot.com/admin/data-security/about-row-security.h
 
 RLS link:https://cloud-docs.thoughtspot.com/admin/data-security/row-level-security.html[rules, window=_blank] in ThoughtSpot use the username or the group names of the groups the user belongs to as part of all queries.
 
-RLS groups should be created separately from content access groups, because the row level security group must have a name that matches the values in the tenant key column in the database.
+RLS groups must have names that exactly match values in the database. When RLS rules are in place, a user's set of groups is placed into the WHERE clauses of queries in the form of `WHERE [field] IN ('group_1, 'group_2', ...)`.
 
 RLS groups should be set to *NOT SHAREABLE* - this way you know that content sharing only occurs via the content access groups. It is much simpler to audit content access by using separate groups for each functionality.
 
@@ -99,6 +99,8 @@ The "multi-tenant database model" is designed on the following principles:
 * Multiple customer organizations in ThoughtSpot
 * Content (answers and pinboards) provided by the app developer
 * Users within the customer organizations can create their own content, and can share it with other users within their own organizations only
+
+The multi-tenant database model is simpler to implement within ThoughtSpot than the single tenant databases model. Because data security is enforced via RLS in the multi-tenant database model, ThoughtSpot only requires a single version of any object to serve all tenants. Even if your production databases are split as single tenants, you may choose to bring everything into a single database within your cloud data warehouse to enable this model.
 
 ==== Content provided by app developer
 The app developer (the ThoughtSpot customer) will create at minimum the data model objects within ThoughtSpot and typically some “pre-built” searches and pinboards. Because there is a single database connection, there is only a need for one of each object. Row level security at the table level will ensure that each user only sees data from their organization, even though they are connecting to the same pinboards and worksheets.
@@ -132,6 +134,8 @@ The "single-tenant databases model" is designed on the following principles:
 * Multiple customer organizations in ThoughtSpot
 * Content (answers and pinboards) are provided by the app developer in the form of templates
 * Users within the customer organizations can create their own content, and can share it with other users within their own organizations only
+
+If you have the choice between designing your cloud data warehouse along single-tenant or multi-tenant model, it will be simpler to implement in ThoughtSpot using the multi-tenant model.
 
 ==== Content provided by app developer
 Single-tenant databases require separate connections in ThoughtSpot for each database in most cases. There will then be separate objects on the ThoughtSpot Server for each connection. Because all of the objects other than the connection will be very similar, the deployment pattern can be handled through templating: there will be a set of template objects which are deployed for each tenant.
