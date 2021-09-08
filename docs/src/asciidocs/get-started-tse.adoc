@@ -12,7 +12,7 @@ You can explore the APIs, evaluate embedding workflows with your data, or obtain
 * To get full access to ThoughtSpot Everywhere features, you can xref:get-started-tse.adoc#purchase-license[purchase the ThoughtSpot Everywhere Edition license].
 * If you already have a ThoughtSpot Enterprise Cloud service subscription, you can xref:get-started-tse.adoc#upgrade-license[upgrade your license] to avail the benefits of ThoughtSpot Everywhere features.
 
-The following figure illustrates steps required for getting started with ThoughtSpot Everywhere:
+The following figure illustrates the steps required for getting started with ThoughtSpot Everywhere:
 
 [div boxDiv]
 --
