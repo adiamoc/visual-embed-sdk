@@ -1020,7 +1020,7 @@ Response Code
 204
 ----
 === Response codes
-
+[width="100%"]
 [options="header", cols=".^2a,.^14a"]
 |===
 |HTTP status code|Description
@@ -1069,8 +1069,8 @@ Response Code
 204
 ----
 === Response codes
-
-[options="header", cols=".^2a,.^14a"]
+[width="100%" cols="2,4"]
+[options="header"]
 |===
 |HTTP status code|Description
 |*204*|The object is successfully added to favorites
