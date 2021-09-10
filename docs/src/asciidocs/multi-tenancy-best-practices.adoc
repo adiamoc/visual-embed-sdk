@@ -66,6 +66,8 @@ A user only sees content when it is:
 
 When content is shared to a group, all of the members of that group will have access to the content.
 
+Content can be shared as *Can View* / *READ_ONLY* or *Can Edit* / *MODIFY* (UI / REST API). In general, all content provided to end users from the app developer would be shared as *Can View* / *READ_ONLY*.
+
 Sharing can occur through the UI (including when embedded) or via the xref:user-api.adoc[security REST APIs]. 
 
 === What content should be shared?
@@ -118,6 +120,7 @@ To allow for users to create their own content and share only within their organ
 ==== Summary of access groups for multi-tenant database model
 The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups. 
 
+Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share content to that group. *NOT SHAREABLE* groups are used for content provided by the app developer to end users.
 [width="100%" cols="3,4,2,2"]
 [options='header']
 |===
@@ -155,6 +158,7 @@ To allow for users to create their own content and share only within their organ
 ==== Summary of access groups for single-tenant databases model
 The following table lists the access groups needed for this model. There will also be privilege groups, data access groups, and development and test content groups. You can name the groups anything you'd like, with a naming scheme that makes sense to you. The "group type" names here are just indications of the purpose of those groups.
 
+Reminder: when a group is set to *NOT SHAREABLE*, administrators can still share content to that group. *NOT SHAREABLE* groups are used for content provided by the app developer to end users.
 [width="100%" cols="3,4,2,2"]
 [options='header']
 |===
