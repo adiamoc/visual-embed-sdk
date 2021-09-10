@@ -68,7 +68,7 @@ image::./images/public-cluster-tse-license.png[]
 [#free-trial]
 == Sign up for a free trial
  
-With the free trial license, you can access the playground, embedding workflows and REST APIs for 30 days. The free trial license allows you to load your data, embed ThoughtSpot search, charts, tables, pinboards, or full ThoughtSpot experience in your app, and also use the REST APIs to query data and manage ThoughtSpot objects.
+With the free trial license, you can access the playground, embedding workflows and REST APIs for 30 days. The free trial license allows you to load your data, embed ThoughtSpot search, charts, tables, pinboards or the full ThoughtSpot experience in your app, and also use the REST APIs to query data and manage ThoughtSpot objects.
 
 To sign up for a free trial:
 
@@ -112,6 +112,8 @@ ThoughtSpot users can trigger an upgrade request from the UI and enable ThoughtS
 image::./images/paid-cluster-tse-license.png[]
 
 * To upgrade your subscription, click **Upgrade**.
++
+A chat widget to appears. You can start a conversation with a ThoughtSpot Sales representative to initiate the upgrade.
 * To evaluate ThoughtSpot Everywhere features, click **Try for free**.
 +
 A 30-day free trial is activated on your cluster. You can upgrade your license at any time during the trial period, or when the trial expires, by clicking **Upgrade now**. 
