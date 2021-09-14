@@ -9,9 +9,9 @@
 There are many situations where ThoughtSpot must be configured for multi-tenancy. With ThoughtSpot Everywhere, almost every deployment involves an application developer providing content to many distinct organizations. A ThoughtSpot Enterprise deployment may require separation between departments within the larger company. In both cases, the techniques in this article for creating separation of users and content will apply.
 
 == What is multi-tenancy?
-Multi-tenancy describes a single software system serving users from many distinct organizations, who cannot have awareness of one another or access to each other’s content.
+Multi-tenancy describes a single software system serving users from many distinct organizations, who cannot have awareness of one another or access to each other’s content. A *tenant* describes the boundaries within the system for a given organization - a set of users and the content that only they can access. 
 
-Within this section, a "multi-tenanted" system is one where an administrator see everything at once from a single login, while a "single-tenanted" system does have an “all content” view available, even to an administrator account.
+Just like in physical housing, tenancy within software system takes many different physical and logical forms. Within this section, a "multi-tenanted" system is one where an administrator see everything at once from a single login, while a "single-tenanted" system does have an “all content” view available, even to an administrator account.
 
 == Multi-tenancy in ThoughtSpot is achieved using groups
 ThoughtSpot link:https://cloud-docs.thoughtspot.com/admin/users-groups/add-group.html[groups, window=_blank] are the best mechanism for all access control and security within ThoughtSpot. Groups serve the purpose of folders, roles, and row-level security assignment in ThoughtSpot. When configured correctly, users from one organization never see content, groups or other users from different organizations.
@@ -37,9 +37,9 @@ When a group is *NOT SHAREABLE*, the users within that group cannot share to tha
 
 When a user is set to *SHAREABLE*, other users within the same *SHAREABLE* group as that user can share content to them individually.
 
-An administrator account can share to any group, regardless of the shareable property, while regular users can only share to those groups they belong to that are set to *SHAREABLE*, and *SHAREABLE* users within those groups.
+An administrator account can share objects with any group, regardless of the shareable property. The non-admin users can only share to (1) *SHAREABLE* groups they belong to and (2) *SHAREABLE* users within those groups. *SHAREABLE* users' names are never seen by other users unless both users belong to the same *SHAREABLE* group.
 
-To allow for multi-tenanted self-service, *SHAREABLE* groups can be created for each organization, so that only the users of each organization can share with one another. The choice of whether to make users shareable or not is up to you - if you prefer all sharing to be done at the group level, then you can set all users to *NOT SHAREABLE*.
+To allow for multi-tenanted self-service, *SHAREABLE* groups can be created for each organization, so that only the users of each organization can share with one another. The choice of whether to make users shareable is up to you; if you prefer all sharing to be done at the group level, you can set all users to *NOT SHAREABLE*.
 
 [NOTE]
 ====
